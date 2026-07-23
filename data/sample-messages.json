@@ -1,0 +1,58 @@
+[
+  {
+    "id": "msg-001",
+    "customerName": "Anna Korhonen",
+    "channel": "email",
+    "subject": "Ajanvaraus huomenna",
+    "body": "Hei! Haluaisin varata ajan huomiseksi klo 14. Onko teillä vapaata? Kiitos!"
+  },
+  {
+    "id": "msg-002",
+    "customerName": "Mikko Virtanen",
+    "channel": "web_form",
+    "subject": "Hintatiedustelu",
+    "body": "Paljonko maksaa kuukausijäsenyys ja onko teillä alennusta opiskelijoille?"
+  },
+  {
+    "id": "msg-003",
+    "customerName": "Laura Nieminen",
+    "channel": "email",
+    "subject": "Huono palvelu",
+    "body": "Olen todella pettynyt viime käyntiini. Jonotin 45 minuuttia eikä kukaan pahoitellut. Tämä on unacceptable."
+  },
+  {
+    "id": "msg-004",
+    "customerName": "Jukka Salminen",
+    "channel": "sms",
+    "subject": null,
+    "body": "Haluan peruuttaa tilaukseni heti. Lasku tuli väärään osoitteeseen."
+  },
+  {
+    "id": "msg-005",
+    "customerName": "Sofia Andersson",
+    "channel": "email",
+    "subject": "Aukioloajat",
+    "body": "Milloin teillä on auki lauantaisin? Ja voiko maksaa kortilla?"
+  },
+  {
+    "id": "msg-006",
+    "customerName": "Timo Lehtinen",
+    "channel": "phone_transcript",
+    "subject": "Hätätilanne",
+    "body": "URGENT: Järjestelmänne kaatui kesken maksun ja kortiltani veloitti kaksi kertaa! Tarvitsen apua HETI."
+  },
+  {
+    "id": "msg-007",
+    "customerName": "Emma Järvinen",
+    "channel": "chat",
+    "subject": null,
+    "body": "Can I reschedule my appointment from Tuesday to Thursday afternoon?"
+  },
+  {
+    "id": "msg-008",
+    "customerName": "Pekka Mäkinen",
+    "channel": "email",
+    "subject": "Yleinen kysymys",
+    "body": "Hei, voitteko kertoa lyhyesti miten palautuskäytäntönne toimii?"
+  }
+]

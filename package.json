@@ -1,0 +1,25 @@
+{
+  "name": "ai-customer-triage-agent",
+  "version": "1.0.0",
+  "description": "Local-first customer message triage agent with classification, urgency scoring, and Finnish reply drafts",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "triage": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "triage": "node src/index.js",
+    "triage:sample": "node src/index.js --sample 1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "customer-support",
+    "triage",
+    "automation",
+    "ai-agent"
+  ],
+  "license": "MIT"
+}
