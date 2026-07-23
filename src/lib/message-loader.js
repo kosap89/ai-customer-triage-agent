@@ -112,3 +112,20 @@ export async function loadMessageFromFile(filePath) {
 
   return normalizeMessage(data);
 }
+
+/**
+ * Normalize an HTTP API request into the internal message shape.
+ * Maps customer_message → body for n8n and webhook callers.
+ *
+ * @param {object} input
+ * @returns {object}
+ */
+export function normalizeApiRequest(input) {
+  return normalizeMessage({
+    id: input.id,
+    customerName: input.customerName,
+    channel: input.channel ?? 'api',
+    subject: input.subject,
+    body: input.customer_message,
+  });
+}

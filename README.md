@@ -49,8 +49,51 @@ npm start -- --sample 3 --json-only
 # Triage a customer message from a JSON file (n8n-ready input)
 npm start -- --input-file data/input-message.json --json-only
 
+# Start local HTTP API (for n8n HTTP Request node)
+npm run server
+
 # Help
 npm start -- --help
+```
+
+## HTTP API (n8n)
+
+Start the server:
+
+```bash
+npm run server
+```
+
+Base URL: `http://localhost:3000`
+
+### GET /health
+
+```bash
+curl http://localhost:3000/health
+```
+
+Response:
+
+```json
+{ "status": "ok" }
+```
+
+### POST /triage
+
+```bash
+curl -X POST http://localhost:3000/triage \
+  -H "Content-Type: application/json" \
+  -d "{\"customer_message\": \"Hei, haluaisin varata ajan perjantaille klo 15.\"}"
+```
+
+Optional fields: `id`, `customerName`, `channel`, `subject`.
+
+The response uses the same structured JSON as the CLI (`meta`, `input`, `classification`, `urgency`, `risk`, `reply`).
+
+Error responses are JSON too, for example:
+
+```json
+{ "error": "Missing required field: customer_message." }
 ```
 
 ## Project structure
@@ -62,6 +105,7 @@ ai-customer-triage-agent/
 │   └── input-message.json        # Example single-message JSON input
 ├── src/
 │   ├── index.js                  # CLI entry point
+│   ├── server.js                 # Local HTTP API for n8n
 │   ├── config/
 │   │   └── categories.js         # Category & urgency constants
 │   ├── classifiers/
@@ -105,7 +149,7 @@ The agent prints a readable summary and JSON like this:
 |--------|--------------|
 | `src/classifiers/rule-based-classifier.js` | Ollama / OpenAI / Gemini classifier |
 | `src/services/reply-generator.js` | LLM-generated Finnish replies |
-| `src/index.js` | HTTP server or n8n webhook trigger |
+| `src/server.js` | Extend with auth, rate limits, or webhooks |
 
 Keep the return shapes the same — `triage-agent.js` and the JSON output stay unchanged.
 
