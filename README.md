@@ -46,6 +46,9 @@ npm start -- --text "Haluan peruuttaa tilaukseni heti"
 # JSON only (useful for scripts / future n8n integration)
 npm start -- --sample 3 --json-only
 
+# Triage a customer message from a JSON file (n8n-ready input)
+npm start -- --input-file data/input-message.json --json-only
+
 # Help
 npm start -- --help
 ```
@@ -55,7 +58,8 @@ npm start -- --help
 ```
 ai-customer-triage-agent/
 ├── data/
-│   └── sample-messages.json      # 8 sample customer messages
+│   ├── sample-messages.json      # 9 sample customer messages
+│   └── input-message.json        # Example single-message JSON input
 ├── src/
 │   ├── index.js                  # CLI entry point
 │   ├── config/
@@ -70,7 +74,8 @@ ai-customer-triage-agent/
 │   ├── output/
 │   │   └── formatter.js          # Summary + JSON formatting
 │   ├── lib/
-│   │   ├── message-loader.js
+│   │   ├── message-loader.js     # Samples, text input, JSON file input
+│   │   ├── appointment-details.js
 │   │   └── errors.js
 │   └── cli/
 │       └── prompt.js

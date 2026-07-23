@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { FileLoadError, ValidationError } from './errors.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -65,4 +65,50 @@ export function messageFromText(text) {
     throw new ValidationError('Please enter a message or choose a sample.');
   }
   return normalizeMessage({ body: trimmed, channel: 'cli' });
+}
+
+/**
+ * Load and validate a single customer message from a JSON file.
+ * Expected format: { id?, customerName?, channel?, subject?, body }
+ *
+ * @param {string} filePath - Path to JSON file (relative or absolute)
+ * @returns {Promise<object>}
+ */
+export async function loadMessageFromFile(filePath) {
+  const resolvedPath = resolve(filePath);
+
+  let raw;
+  try {
+    raw = await readFile(resolvedPath, 'utf-8');
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new FileLoadError(`Input file not found: ${resolvedPath}`);
+    }
+    throw new FileLoadError(
+      `Could not read input file at ${resolvedPath}: ${err.message}`
+    );
+  }
+
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    throw new FileLoadError(`Input file contains invalid JSON: ${resolvedPath}`);
+  }
+
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new ValidationError(
+      'Input file must contain a JSON object with a body field.'
+    );
+  }
+
+  if (data.body === undefined || data.body === null) {
+    throw new ValidationError('Input JSON is missing required field: body.');
+  }
+
+  if (typeof data.body !== 'string') {
+    throw new ValidationError('Input JSON field body must be a string.');
+  }
+
+  return normalizeMessage(data);
 }

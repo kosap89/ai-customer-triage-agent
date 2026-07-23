@@ -7,13 +7,14 @@
  *   node src/index.js                  Interactive mode
  *   node src/index.js --sample 3       Triage sample message #3
  *   node src/index.js --text "..."     Triage custom text
- *   node src/index.js --json-only      Output JSON only (for piping to n8n/scripts)
+ *   node src/index.js --input-file data/input-message.json  Triage JSON file input
  */
 
 import { triageMessage } from './services/triage-agent.js';
 import { formatSummary, formatJson } from './output/formatter.js';
 import {
   loadSampleMessages,
+  loadMessageFromFile,
   normalizeMessage,
   messageFromText,
 } from './lib/message-loader.js';
@@ -22,7 +23,7 @@ import { TriageError } from './lib/errors.js';
 
 /** Parse simple CLI flags without adding dependencies. */
 function parseArgs(argv) {
-  const args = { sample: null, text: null, jsonOnly: false, help: false };
+  const args = { sample: null, text: null, inputFile: null, jsonOnly: false, help: false };
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
@@ -34,6 +35,8 @@ function parseArgs(argv) {
       args.sample = parseInt(argv[++i], 10);
     } else if (arg === '--text' || arg === '-t') {
       args.text = argv[++i];
+    } else if (arg === '--input-file' || arg === '-f') {
+      args.inputFile = argv[++i];
     }
   }
 
@@ -48,13 +51,15 @@ Usage:
   npm start                         Interactive mode
   npm start -- --sample 1             Run sample message #1
   npm start -- --text "Your message"  Triage custom text
+  npm start -- --input-file data/input-message.json --json-only
   npm start -- --json-only            JSON output only
 
 Options:
-  -s, --sample <n>    Sample message number (1-based)
-  -t, --text <msg>    Custom message text
-      --json-only     Skip human-readable summary
-  -h, --help          Show this help
+  -s, --sample <n>       Sample message number (1-based)
+  -t, --text <msg>       Custom message text
+  -f, --input-file <path>  Customer message JSON file
+      --json-only        Skip human-readable summary
+  -h, --help             Show this help
 `);
 }
 
@@ -124,6 +129,13 @@ async function main() {
     // Non-interactive: --text flag
     if (args.text) {
       runTriage(messageFromText(args.text), args.jsonOnly);
+      return;
+    }
+
+    // Non-interactive: --input-file flag
+    if (args.inputFile) {
+      const message = await loadMessageFromFile(args.inputFile);
+      runTriage(message, args.jsonOnly);
       return;
     }
 
