@@ -54,5 +54,12 @@
     "channel": "email",
     "subject": "Yleinen kysymys",
     "body": "Hei, voitteko kertoa lyhyesti miten palautuskäytäntönne toimii?"
+  },
+  {
+    "id": "msg-009",
+    "customerName": "Liisa Heikkinen",
+    "channel": "email",
+    "subject": "Ajanvaraus hierontaan",
+    "body": "Hei, haluaisin varata hierontaan ensi tiistaina klo 10. Sähköpostini on liisa.heikkinen@example.com."
   }
 ]

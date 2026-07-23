@@ -1,4 +1,5 @@
 import { CATEGORIES } from '../config/categories.js';
+import { buildAppointmentBookingReply } from '../lib/appointment-details.js';
 
 /**
  * Finnish reply draft templates (v1 — rule-based).
@@ -12,24 +13,21 @@ import { CATEGORIES } from '../config/categories.js';
  */
 export function generateReply({ message, category, urgency }) {
   const name = message.customerName.split(' ')[0] || 'asiakas';
+  const fullText = [message.subject, message.body].filter(Boolean).join('\n');
+
+  if (category === CATEGORIES.APPOINTMENT_BOOKING) {
+    return {
+      language: 'fi',
+      draft: buildAppointmentBookingReply({
+        customerName: message.customerName,
+        fullText,
+      }),
+      tone: 'friendly',
+      urgencyContext: urgency,
+    };
+  }
 
   const templates = {
-    [CATEGORIES.APPOINTMENT_BOOKING]: {
-      tone: 'friendly',
-      draft: `Hei ${name},
-
-Kiitos viestistäsi! Autamme mielellämme ajanvarauksessa.
-
-Tarkistan kalenteristamme vapaat ajat toivomillesi ajankohdille. Emme vielä vahvista aikaa — palaan sinulle ehdotuksilla, kun olemme tarkistaneet saatavuuden.
-
-Voisitko vielä tarkentaa, jos jokin puuttuu:
-- toivottu päivä ja kellonaika
-- palvelu tai asia, jota varten varaat ajan
-- puhelinnumerosi tai sähköpostisi varauksen vahvistusta varten
-
-Ystävällisin terveisin,
-Asiakaspalvelu`,
-    },
     [CATEGORIES.PRICING_QUESTION]: {
       tone: 'helpful',
       draft: `Hei ${name},
