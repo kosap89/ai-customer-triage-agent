@@ -19,7 +19,7 @@
             {
               "id": "fcc7e6cb-885e-4e7b-ba91-f99008ef2a6e",
               "name": "customer_message",
-              "value": "Hei, haluaisin varata ajan perjantaille klo 15.",
+              "value": "Kortiltani veloitettiin kaksi kertaa ja järjestelmä kaatui. Tarvitsen apua heti.",
               "type": "string"
             }
           ]
@@ -52,6 +52,40 @@
       ],
       "id": "bdbb2a70-ddec-402c-90e9-8b4827207530",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0e709782-f853-4b29-a1f9-238867b0ef0c",
+              "leftValue": "={{ $json.risk.requiresHumanReview }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "ab176564-0907-41ef-aade-be0460edb811",
+      "name": "If"
     }
   ],
   "pinData": {
@@ -86,6 +120,17 @@
           }
         ]
       ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -93,7 +138,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "ee7d46b1-b40a-41bb-ab87-ea5035d8cbf8",
+  "versionId": "b07ab1d9-fc28-4846-b268-aae044e4e7a6",
   "meta": {
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
   },
