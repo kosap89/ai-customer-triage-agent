@@ -11,7 +11,8 @@
     "start": "node src/index.js",
     "triage": "node src/index.js",
     "triage:sample": "node src/index.js --sample 1",
-    "server": "node src/server.js"
+    "server": "node src/server.js",
+    "match-demo": "node src/matching/match-demo.js"
   },
   "engines": {
     "node": ">=18.0.0"

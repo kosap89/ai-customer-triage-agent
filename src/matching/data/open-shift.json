@@ -1,0 +1,14 @@
+{
+  "id": "shift-001",
+  "workplace": "Tapiola Health Centre",
+  "location": "Espoo, Tapiola",
+  "date": "2026-08-12",
+  "startTime": "07:00",
+  "endTime": "15:00",
+  "requiredProfession": "registered_nurse",
+  "requiredQualifications": [
+    "basic_life_support",
+    "medication_administration"
+  ],
+  "workType": "day_shift_ward"
+}

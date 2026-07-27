@@ -1,0 +1,124 @@
+[
+  {
+    "id": "worker-001",
+    "name": "Aino Virtanen",
+    "profession": "registered_nurse",
+    "availability": [
+      {
+        "date": "2026-08-12",
+        "startTime": "06:00",
+        "endTime": "18:00"
+      },
+      {
+        "date": "2026-08-13",
+        "startTime": "07:00",
+        "endTime": "15:00"
+      }
+    ],
+    "qualifications": [
+      "basic_life_support",
+      "medication_administration",
+      "wound_care"
+    ],
+    "preferredLocations": [
+      "Espoo, Tapiola",
+      "Espoo, Leppävaara"
+    ],
+    "excludedWorkTypes": [
+      "night_shift_emergency"
+    ]
+  },
+  {
+    "id": "worker-002",
+    "name": "Mikko Salminen",
+    "profession": "practical_nurse",
+    "availability": [
+      {
+        "date": "2026-08-12",
+        "startTime": "07:00",
+        "endTime": "15:00"
+      }
+    ],
+    "qualifications": [
+      "basic_life_support",
+      "medication_administration"
+    ],
+    "preferredLocations": [
+      "Espoo, Tapiola"
+    ],
+    "excludedWorkTypes": []
+  },
+  {
+    "id": "worker-003",
+    "name": "Sari Nieminen",
+    "profession": "registered_nurse",
+    "availability": [
+      {
+        "date": "2026-08-12",
+        "startTime": "12:00",
+        "endTime": "20:00"
+      },
+      {
+        "date": "2026-08-14",
+        "startTime": "07:00",
+        "endTime": "15:00"
+      }
+    ],
+    "qualifications": [
+      "basic_life_support",
+      "medication_administration",
+      "palliative_care"
+    ],
+    "preferredLocations": [
+      "Helsinki, Kallio"
+    ],
+    "excludedWorkTypes": []
+  },
+  {
+    "id": "worker-004",
+    "name": "Jukka Korhonen",
+    "profession": "registered_nurse",
+    "availability": [
+      {
+        "date": "2026-08-12",
+        "startTime": "06:30",
+        "endTime": "16:00"
+      }
+    ],
+    "qualifications": [
+      "basic_life_support",
+      "wound_care"
+    ],
+    "preferredLocations": [
+      "Espoo, Tapiola",
+      "Vantaa, Tikkurila"
+    ],
+    "excludedWorkTypes": [
+      "home_care_visits"
+    ]
+  },
+  {
+    "id": "worker-005",
+    "name": "Emma Lehtinen",
+    "profession": "registered_nurse",
+    "availability": [
+      {
+        "date": "2026-08-12",
+        "startTime": "07:00",
+        "endTime": "15:00"
+      }
+    ],
+    "qualifications": [
+      "basic_life_support",
+      "medication_administration",
+      "infection_control"
+    ],
+    "preferredLocations": [
+      "Espoo, Tapiola"
+    ],
+    "excludedWorkTypes": [
+      "day_shift_ward",
+      "long_term_care"
+    ]
+  }
+]
