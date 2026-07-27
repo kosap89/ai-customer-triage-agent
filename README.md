@@ -97,7 +97,7 @@ The design keeps **integration points separate from business logic**:
 | **Risk flags** | Highlights complaints, billing topics, low confidence, and high urgency |
 | **Human review notes** | Recommends when a person should check before sending |
 | **CLI modes** | Interactive, sample messages, inline text, JSON file input |
-| **HTTP API** | `GET /health` and `POST /triage` for n8n and scripts |
+| **HTTP API** | `GET /health`, `POST /triage`, and `POST /match-shift` (experimental) |
 | **n8n workflow** | Included starter workflow that calls the local API |
 | **Zero dependencies** | Node.js built-in modules only |
 
@@ -254,6 +254,69 @@ The API returns the same structured JSON as the CLI. Error responses are also JS
 
 ```json
 { "error": "Missing required field: customer_message." }
+```
+
+### POST /match-shift (experimental)
+
+Match fictional healthcare workers against an open shift using the rule-based matcher:
+
+```bash
+curl -X POST http://localhost:3000/match-shift \
+  -H "Content-Type: application/json" \
+  -d "{\"shift\":{\"id\":\"shift-001\",\"workplace\":\"Tapiola Health Centre\",\"location\":\"Espoo, Tapiola\",\"date\":\"2026-08-12\",\"startTime\":\"07:00\",\"endTime\":\"15:00\",\"requiredProfession\":\"registered_nurse\",\"requiredQualifications\":[\"basic_life_support\",\"medication_administration\"],\"workType\":\"day_shift_ward\"},\"workers\":[{\"id\":\"worker-001\",\"name\":\"Aino Virtanen\",\"profession\":\"registered_nurse\",\"availability\":[{\"date\":\"2026-08-12\",\"startTime\":\"06:00\",\"endTime\":\"18:00\"}],\"qualifications\":[\"basic_life_support\",\"medication_administration\",\"wound_care\"],\"preferredLocations\":[\"Espoo\",\"Espoo, Tapiola\"],\"excludedWorkTypes\":[]}]}"
+```
+
+Request body:
+
+```json
+{
+  "shift": {
+    "id": "shift-001",
+    "workplace": "Tapiola Health Centre",
+    "location": "Espoo, Tapiola",
+    "date": "2026-08-12",
+    "startTime": "07:00",
+    "endTime": "15:00",
+    "requiredProfession": "registered_nurse",
+    "requiredQualifications": [
+      "basic_life_support",
+      "medication_administration"
+    ],
+    "workType": "day_shift_ward"
+  },
+  "workers": [
+    {
+      "id": "worker-001",
+      "name": "Aino Virtanen",
+      "profession": "registered_nurse",
+      "availability": [
+        {
+          "date": "2026-08-12",
+          "startTime": "06:00",
+          "endTime": "18:00"
+        }
+      ],
+      "qualifications": [
+        "basic_life_support",
+        "medication_administration",
+        "wound_care"
+      ],
+      "preferredLocations": [
+        "Espoo",
+        "Espoo, Tapiola"
+      ],
+      "excludedWorkTypes": []
+    }
+  ]
+}
+```
+
+The response uses the same structured JSON as `npm run match-demo` (`meta`, `shift`, `summary`, `rankedCandidates`, `rejected`, `allResults`).
+
+Error responses are JSON too, for example:
+
+```json
+{ "error": "Field workers must be a non-empty array." }
 ```
 
 ---
