@@ -86,6 +86,133 @@
       ],
       "id": "ab176564-0907-41ef-aade-be0460edb811",
       "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/match-shift",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"shift\": {\n    \"id\": \"shift-001\",\n    \"workplace\": \"Tapiola Health Centre\",\n    \"location\": \"Espoo, Tapiola\",\n    \"date\": \"2026-08-12\",\n    \"startTime\": \"07:00\",\n    \"endTime\": \"15:00\",\n    \"requiredProfession\": \"registered_nurse\",\n    \"requiredQualifications\": [\n      \"basic_life_support\",\n      \"medication_administration\"\n    ],\n    \"workType\": \"day_shift_ward\"\n  },\n  \"workers\": [\n    {\n      \"id\": \"worker-001\",\n      \"name\": \"Aino Virtanen\",\n      \"profession\": \"registered_nurse\",\n      \"availability\": [\n        {\n          \"date\": \"2026-08-12\",\n          \"startTime\": \"06:00\",\n          \"endTime\": \"18:00\"\n        }\n      ],\n      \"qualifications\": [\n        \"basic_life_support\",\n        \"medication_administration\",\n        \"wound_care\"\n      ],\n      \"preferredLocations\": [\n        \"Espoo\",\n        \"Espoo, Tapiola\"\n      ],\n      \"excludedWorkTypes\": []\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        -176
+      ],
+      "id": "402c806e-314f-4a2a-96d9-9563f8da61bc",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "163c1d08-cd29-46cf-bc01-5f5ff560586d",
+              "leftValue": "={{ $json.summary.eligibleCount }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        624,
+        -176
+      ],
+      "id": "b2532db0-c6a8-41d1-bac7-ff5924599f8d",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bdbb0285-cb44-4075-a24e-ab4429e08ed5",
+              "name": "status",
+              "value": "no_eligible_candidate",
+              "type": "string"
+            },
+            {
+              "id": "4b13b5c1-7018-4cda-bc58-40b7ae244a19",
+              "name": "shiftId",
+              "value": "={{ $json.shift.id }}",
+              "type": "string"
+            },
+            {
+              "id": "3194e2a2-d7e5-4b20-9f68-9ade86d7f2e7",
+              "name": "message",
+              "value": "No eligible worker was found for this shift.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        -160
+      ],
+      "id": "a7f156db-657f-4cf7-85e1-5c97f951a6f1",
+      "name": "No Eligible Candidate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d26958c8-d7ab-4d7c-bfcb-9403a75c75ee",
+              "name": "=status",
+              "value": "awaiting_human_approval",
+              "type": "string"
+            },
+            {
+              "id": "df9be4c3-8cb3-495f-992f-c6c8ce85ead2",
+              "name": "=candidateName",
+              "value": "={{ $json.rankedCandidates[0].name }}",
+              "type": "string"
+            },
+            {
+              "id": "d356a13b-816a-42e8-9465-55e561e2ad07",
+              "name": "candidateScore",
+              "value": "={{ $json.rankedCandidates[0].score }}",
+              "type": "number"
+            },
+            {
+              "id": "10bb5888-0178-41b7-927b-4cf8ed745a49",
+              "name": "shiftId",
+              "value": "={{ $json.shift.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        -336
+      ],
+      "id": "d538daf1-9448-4b59-a047-a733d227a074",
+      "name": "Await Human Approval"
     }
   ],
   "pinData": {
@@ -117,6 +244,11 @@
             "node": "HTTP Request",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -131,6 +263,35 @@
           }
         ]
       ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Await Human Approval",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Eligible Candidate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -138,7 +299,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "b07ab1d9-fc28-4846-b268-aae044e4e7a6",
+  "versionId": "fd370143-5e4d-423a-90f6-81d3fe396b75",
   "meta": {
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
   },
