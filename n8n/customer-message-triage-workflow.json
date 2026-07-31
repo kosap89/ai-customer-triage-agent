@@ -200,6 +200,24 @@
               "name": "shiftId",
               "value": "={{ $json.shift.id }}",
               "type": "string"
+            },
+            {
+              "id": "6f7f149d-5ad6-462e-84e0-9b453c4a0724",
+              "name": "workplace",
+              "value": "={{ $json.shift.workplace }}",
+              "type": "string"
+            },
+            {
+              "id": "22d00496-f1a3-4153-b650-16b54d7b7291",
+              "name": "date",
+              "value": "={{ $json.shift.date }}",
+              "type": "string"
+            },
+            {
+              "id": "995b2fd3-8df7-414b-8653-c3be3cfbe4a0",
+              "name": "shiftTime",
+              "value": "={{ $json.shift.startTime }}–{{ $json.shift.endTime }}",
+              "type": "string"
             }
           ]
         },
@@ -299,7 +317,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "fd370143-5e4d-423a-90f6-81d3fe396b75",
+  "versionId": "9c29cc1b-6b44-49da-bbdd-d8cfbb9669c3",
   "meta": {
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
   },
