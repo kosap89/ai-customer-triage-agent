@@ -231,6 +231,120 @@
       ],
       "id": "d538daf1-9448-4b59-a047-a733d227a074",
       "name": "Await Human Approval"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs",
+          "mode": "list",
+          "cachedResultName": "Shift Approval Queue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Taulukko1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "={{ $json.status }}",
+            "candidateName": "={{ $json.candidateName }}",
+            "candidateScore": "={{ $json.candidateScore }}",
+            "shiftId": "={{ $json.shiftId }}",
+            "workplace": "={{ $json.workplace }}",
+            "date": "={{ $json.date }}",
+            "shiftTime": "={{ $json.shiftTime }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "candidateName",
+              "displayName": "candidateName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "candidateScore",
+              "displayName": "candidateScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "shiftId",
+              "displayName": "shiftId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workplace",
+              "displayName": "workplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "shiftTime",
+              "displayName": "shiftTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1024,
+        -336
+      ],
+      "id": "398fd548-f47e-49a4-8178-33e16e19004f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "lgKBMyKKXWQ1NjPU",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -310,6 +424,17 @@
           }
         ]
       ]
+    },
+    "Await Human Approval": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -317,8 +442,9 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "9c29cc1b-6b44-49da-bbdd-d8cfbb9669c3",
+  "versionId": "34b7e7ec-ff1a-4dfd-a403-9c915ba8251b",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
   },
   "id": "f3oOXEVUwWjLMuPF",
