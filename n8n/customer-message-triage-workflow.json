@@ -258,7 +258,8 @@
             "shiftId": "={{ $json.shiftId }}",
             "workplace": "={{ $json.workplace }}",
             "date": "={{ $json.date }}",
-            "shiftTime": "={{ $json.shiftTime }}"
+            "shiftTime": "={{ $json.shiftTime }}",
+            "approvalStatus": "=pending"
           },
           "matchingColumns": [],
           "schema": [
@@ -324,6 +325,16 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true
+            },
+            {
+              "id": "approvalStatus",
+              "displayName": "approvalStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -442,7 +453,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "34b7e7ec-ff1a-4dfd-a403-9c915ba8251b",
+  "versionId": "9bf0c8c3-d473-4456-92b7-882f32875a9c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
