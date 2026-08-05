@@ -1,0 +1,153 @@
+{
+  "name": "process-approved-shifts-workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "76d4ffc1-8dc6-4d37-b421-dc43d9ab5c36",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs",
+          "mode": "list",
+          "cachedResultName": "Shift Approval Queue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Taulukko1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "approvalStatus",
+              "lookupValue": "approved"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "88689a88-6b82-45bf-9b79-3da86323c493",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "lgKBMyKKXWQ1NjPU",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "16f7df8d-598e-4a97-b397-facdc668f39c",
+              "name": "status",
+              "value": "approved_shift_ready",
+              "type": "string"
+            },
+            {
+              "id": "8f756012-e234-4f06-a51e-c3ab3986c102",
+              "name": "candidateName",
+              "value": "={{ $json.candidateName }}",
+              "type": "string"
+            },
+            {
+              "id": "35975c10-f58e-44d1-93ae-d69bf1f7fd02",
+              "name": "shiftId",
+              "value": "={{ $json.shiftId }}",
+              "type": "string"
+            },
+            {
+              "id": "20e990ed-967a-4967-8606-00f63973f9aa",
+              "name": "workplace",
+              "value": "={{ $json.workplace }}",
+              "type": "string"
+            },
+            {
+              "id": "8c7416fd-b138-4747-8114-4f0000c55a45",
+              "name": "date",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a3837450-4eff-4f80-b84a-b0d6cd7d7ff1",
+              "name": "shiftTime",
+              "value": "={{ $json.shiftTime }}",
+              "type": "string"
+            },
+            {
+              "id": "f17c27aa-1ab9-48ce-aa0e-fb106d66ca98",
+              "name": "message",
+              "value": "=Shift approved for {{ $json.candidateName }}.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "29405966-db75-481c-8574-48fdfef2cff5",
+      "name": "Approved Shift Result"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Approved Shift Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7e908579-60af-4e92-b195-03e46a072586",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
+  },
+  "id": "WRb8jyfp5iEPdfeq",
+  "tags": []
+}
