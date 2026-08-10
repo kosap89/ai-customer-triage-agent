@@ -111,6 +111,144 @@
       ],
       "id": "29405966-db75-481c-8574-48fdfef2cff5",
       "name": "Approved Shift Result"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs",
+          "mode": "list",
+          "cachedResultName": "Shift Approval Queue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Taulukko1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jmbPn2SyxIsW8Vk3RWoqLoth-Rua2w3dfYG72ef7FCs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "approvalStatus": "processed",
+            "row_number": "={{ $('Get row(s) in sheet').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "candidateName",
+              "displayName": "candidateName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "candidateScore",
+              "displayName": "candidateScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "shiftId",
+              "displayName": "shiftId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "workplace",
+              "displayName": "workplace",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "shiftTime",
+              "displayName": "shiftTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "approvalStatus",
+              "displayName": "approvalStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        624,
+        0
+      ],
+      "id": "1f288762-68e5-4a9a-92a2-17032f029e90",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "lgKBMyKKXWQ1NjPU",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -136,6 +274,17 @@
           }
         ]
       ]
+    },
+    "Approved Shift Result": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -143,7 +292,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "7e908579-60af-4e92-b195-03e46a072586",
+  "versionId": "f2c72ef4-ebe2-44ab-afe4-88d887773529",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
