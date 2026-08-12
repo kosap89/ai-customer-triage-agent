@@ -238,7 +238,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        624,
+        1040,
         0
       ],
       "id": "1f288762-68e5-4a9a-92a2-17032f029e90",
@@ -247,6 +247,88 @@
         "googleSheetsOAuth2Api": {
           "id": "lgKBMyKKXWQ1NjPU",
           "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e8adaf12-4145-4f65-a938-7841c5fe942a",
+              "name": "status",
+              "value": "offered_to_worker",
+              "type": "string"
+            },
+            {
+              "id": "194e3564-2858-480e-86bc-0d770534a436",
+              "name": "candidateName",
+              "value": "={{ $json.candidateName }}",
+              "type": "string"
+            },
+            {
+              "id": "5462a4c0-be65-4cc8-ab63-9e9fb6bd4432",
+              "name": "shiftId",
+              "value": "={{ $json.shiftId }}",
+              "type": "string"
+            },
+            {
+              "id": "73c43ec6-27e7-47fc-bd5b-e44089999de9",
+              "name": "workplace",
+              "value": "={{ $json.workplace }}",
+              "type": "string"
+            },
+            {
+              "id": "50fb6713-49d4-4519-aca9-48bdfd60f634",
+              "name": "date",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a4be9001-3fb8-44d1-af03-f07c5031b6b9",
+              "name": "shiftTime",
+              "value": "={{ $json.shiftTime }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d35b2f-b20b-4dd8-aaf2-45cba2861bf5",
+              "name": "offerMessage",
+              "value": "=Hei {{ $json.candidateName }}, sinulle olisi tarjolla vuoro paikassa {{ $json.workplace }} {{ $json.date }} klo {{ $json.shiftTime }}. Vastaa hyväksytkö vuoron.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        0
+      ],
+      "id": "5387eb6e-31b0-4491-a731-98f9f4f8d8aa",
+      "name": "Create Worker Offer"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "=Vuorotarjous: {{ $json.workplace }} {{ $json.date }}",
+        "message": "={{ $json.offerMessage }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        0
+      ],
+      "id": "c08c822b-f454-428f-98d8-7d28cc6f80ab",
+      "name": "Create a draft",
+      "webhookId": "ab3e18c1-4505-414b-bca0-c1a5fb4356f8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mDMutShb5dAUEG0Q",
+          "name": "Gmail account"
         }
       }
     }
@@ -279,6 +361,28 @@
       "main": [
         [
           {
+            "node": "Create Worker Offer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Worker Offer": {
+      "main": [
+        [
+          {
+            "node": "Create a draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a draft": {
+      "main": [
+        [
+          {
             "node": "Update row in sheet",
             "type": "main",
             "index": 0
@@ -292,7 +396,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "f2c72ef4-ebe2-44ab-afe4-88d887773529",
+  "versionId": "bf857def-dbb2-4f58-bd24-7bb500e34bdf",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
