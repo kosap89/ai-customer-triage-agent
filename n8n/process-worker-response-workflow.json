@@ -33,6 +33,18 @@
               "name": "workerResponse",
               "value": "declined",
               "type": "string"
+            },
+            {
+              "id": "61845ed1-224b-4e4a-a427-aa6de46f2dd6",
+              "name": "currentCandidateRank",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "eb6fa95d-1423-491d-a615-71db58444850",
+              "name": "rankedCandidates",
+              "value": "[\n  {\n    \"rank\": 1,\n    \"name\": \"Aino Virtanen\",\n    \"score\": 95\n  },\n  {\n    \"rank\": 2,\n    \"name\": \"Laura Korhonen\",\n    \"score\": 88\n  },\n  {\n    \"rank\": 3,\n    \"name\": \"Mikko Niemi\",\n    \"score\": 81\n  }\n]",
+              "type": "array"
             }
           ]
         },
@@ -124,30 +136,55 @@
     },
     {
       "parameters": {
+        "jsCode": "const currentRank = $json.currentCandidateRank;\nconst candidates = $json.rankedCandidates;\n\nconst nextCandidate = candidates.find(\n  candidate => candidate.rank === currentRank + 1\n);\n\nif (!nextCandidate) {\n  return [{\n    json: {\n      status: \"no_more_candidates\",\n      shiftId: $json.shiftId\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    status: \"next_candidate_selected\",\n    shiftId: $json.shiftId,\n    previousCandidate: $json.candidateName,\n    candidateName: nextCandidate.name,\n    candidateScore: nextCandidate.score,\n    candidateRank: nextCandidate.rank\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        96
+      ],
+      "id": "6ba90b29-b97e-4150-90d3-106542bd6edc",
+      "name": "Select Next Candidate"
+    },
+    {
+      "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "00301ff0-61ef-4747-8e9d-5937398e85bc",
+              "id": "c94f5cbd-4f06-4ad6-a5ec-75d3be24edbf",
               "name": "status",
-              "value": "try_next_candidate",
+              "value": "offered_to_next_candidate",
               "type": "string"
             },
             {
-              "id": "1a1a83c4-9c0c-41e9-bec8-e1de81723b8f",
+              "id": "f3128ddf-51d5-417b-9cc2-59c772a42ae7",
               "name": "shiftId",
               "value": "={{ $json.shiftId }}",
               "type": "string"
             },
             {
-              "id": "fb77df5f-253c-4ffd-bc2d-bdb41c0d68b3",
+              "id": "e7ec8f17-4ce1-45da-b264-1f5898465ea2",
               "name": "candidateName",
               "value": "={{ $json.candidateName }}",
               "type": "string"
             },
             {
-              "id": "2d3f43d7-584a-4945-be7f-8f62111878e7",
-              "name": "message",
-              "value": "={{ $json.candidateName }} declined shift {{ $json.shiftId }}. Try next ranked candidate.",
+              "id": "2cb55937-7885-4f0e-b429-b0d7b312cb96",
+              "name": "candidateScore",
+              "value": "={{ $json.candidateScore }}",
+              "type": "string"
+            },
+            {
+              "id": "1bd35a63-7652-4cca-a529-ffc68674370e",
+              "name": "candidateRank",
+              "value": "={{ $json.candidateRank }}",
+              "type": "string"
+            },
+            {
+              "id": "b48ee266-7836-40cf-82be-fb857cab2944",
+              "name": "offerMessage",
+              "value": "=Hei {{ $json.candidateName }}, sinulle olisi tarjolla vuoro {{ $json.shiftId }}. Vastaa hyväksytkö vuoron.",
               "type": "string"
             }
           ]
@@ -157,11 +194,34 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        624,
+        800,
         96
       ],
-      "id": "b09f3535-799d-4693-8e3a-a80211b96ff6",
-      "name": "Try Next Candidate"
+      "id": "e6594926-b4a3-40ef-bd35-a1a367261879",
+      "name": "Create Next Candidate Offer"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "=Vuorotarjous: {{ $json.shiftId }} — {{ $json.candidateName }}",
+        "message": "={{ $json.offerMessage }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        96
+      ],
+      "id": "2292dda5-98f4-42f2-9e19-b5978d1bf47d",
+      "name": "Create a draft",
+      "webhookId": "d37109be-9171-4354-afcf-77753d900434",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mDMutShb5dAUEG0Q",
+          "name": "Gmail account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -199,7 +259,29 @@
         ],
         [
           {
-            "node": "Try Next Candidate",
+            "node": "Select Next Candidate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Next Candidate": {
+      "main": [
+        [
+          {
+            "node": "Create Next Candidate Offer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Next Candidate Offer": {
+      "main": [
+        [
+          {
+            "node": "Create a draft",
             "type": "main",
             "index": 0
           }
@@ -212,8 +294,9 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "df57a79c-c9ef-404e-b9c4-c9e2e2a834d0",
+  "versionId": "55604186-9f79-48c6-bfec-3cf6ccb55627",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
   },
   "id": "29n3Xw43p3YeHQs8",
