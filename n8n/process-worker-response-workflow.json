@@ -1,0 +1,221 @@
+{
+  "name": "process-worker-response-workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1f93f68f-1230-41d1-b3ed-03c0a59d99c5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "12e97058-d4cf-4706-a11e-704c17d859e4",
+              "name": "shiftId",
+              "value": "shift-001",
+              "type": "string"
+            },
+            {
+              "id": "63415a1a-2291-460d-8f8c-a298433c3f68",
+              "name": "candidateName",
+              "value": "Aino Virtanen",
+              "type": "string"
+            },
+            {
+              "id": "6fc9c416-3779-4ac4-9cdd-cb552dee6a69",
+              "name": "workerResponse",
+              "value": "declined",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7b12343f-0604-4723-9478-6fb2810d8882",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9676dcd4-6617-4755-bd25-069a0ac10e78",
+              "leftValue": "={{ $json.workerResponse }}",
+              "rightValue": "accepted",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "de7c567a-c67f-4912-96a9-e096f4a3266a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "22b32083-5020-43fc-a72a-5d4cfc2dc481",
+              "name": "status",
+              "value": "shift_filled",
+              "type": "string"
+            },
+            {
+              "id": "653b7dbe-b239-4b28-89bb-528bcdf15013",
+              "name": "shiftId",
+              "value": "={{ $json.shiftId }}",
+              "type": "string"
+            },
+            {
+              "id": "f9ad73bf-e8b7-4ab7-b603-d154fd89ee41",
+              "name": "candidateName",
+              "value": "={{ $json.candidateName }}",
+              "type": "string"
+            },
+            {
+              "id": "533d6792-0fd9-4325-88ca-fe75bda4d3d6",
+              "name": "=message",
+              "value": "=Shift {{ $json.shiftId }} filled by {{ $json.candidateName }}.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "a8e006b1-17a2-4fd6-9c20-936dca59fb8c",
+      "name": "Shift Filled"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00301ff0-61ef-4747-8e9d-5937398e85bc",
+              "name": "status",
+              "value": "try_next_candidate",
+              "type": "string"
+            },
+            {
+              "id": "1a1a83c4-9c0c-41e9-bec8-e1de81723b8f",
+              "name": "shiftId",
+              "value": "={{ $json.shiftId }}",
+              "type": "string"
+            },
+            {
+              "id": "fb77df5f-253c-4ffd-bc2d-bdb41c0d68b3",
+              "name": "candidateName",
+              "value": "={{ $json.candidateName }}",
+              "type": "string"
+            },
+            {
+              "id": "2d3f43d7-584a-4945-be7f-8f62111878e7",
+              "name": "message",
+              "value": "={{ $json.candidateName }} declined shift {{ $json.shiftId }}. Try next ranked candidate.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        96
+      ],
+      "id": "b09f3535-799d-4693-8e3a-a80211b96ff6",
+      "name": "Try Next Candidate"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Shift Filled",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Next Candidate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "df57a79c-c9ef-404e-b9c4-c9e2e2a834d0",
+  "meta": {
+    "instanceId": "251f4d9292dab5a09a73f8a734708257a448451d7136c339aa86726b559e426d"
+  },
+  "id": "29n3Xw43p3YeHQs8",
+  "tags": []
+}
